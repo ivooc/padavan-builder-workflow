@@ -45,6 +45,11 @@ jobs:
     - name: Run custom pre-build script
       run: '[[ -f pre-build.sh ]] && . pre-build.sh || :'
 
+    - name: Set Timezone
+      uses: szenius/set-timezone@v2.0
+      with:
+        timezoneLinux: "America/Sao_Paulo"
+
     - name: Build firmware
       run: |
         cp build.config padavan-ng/trunk/.config
