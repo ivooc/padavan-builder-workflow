@@ -16,6 +16,19 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Ensure timezone data is available
+      run: |
+          if [[ ! -e /usr/share/zoneinfo/$TZ ]]; then
+            apt-get update
+            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+          fi
+
+    - name: Check timezone
+      run: |
+          echo "TZ=$TZ"
+          date '+%Y-%m-%d %H:%M:%S %z %Z'
+          date -u '+%Y-%m-%d %H:%M:%S %z %Z'
+
     - name: Get variables
       run: |
         sed -i 's|\r$||g' variables build.config
